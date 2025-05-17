@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 export default function Home() {
   
+
+
   const [rightSphere, setRightSphere] = useState("0.00");
   const [rightCylinder, setRightCylinder] = useState("0.00");
   const [leftSphere, setLeftSphere] = useState("0.00");
