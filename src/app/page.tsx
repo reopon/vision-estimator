@@ -4,7 +4,14 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const searchParams = useSearchParams();
+  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setSearchParams(new URLSearchParams(window.location.search));
+    }
+  }, []);
+
 
   const [rightSphere, setRightSphere] = useState("0.00");
   const [rightCylinder, setRightCylinder] = useState("0.00");
@@ -13,8 +20,10 @@ export default function Home() {
   const [result, setResult] = useState("");
   const [link, setLink] = useState("");
   const [showGlossary, setShowGlossary] = useState(false);
+  const [viewOnlyResult, setViewOnlyResult] = useState(false);
 
   useEffect(() => {
+    if (!searchParams) return;
     const rs = searchParams.get("rs");
     const rc = searchParams.get("rc");
     const ls = searchParams.get("ls");
@@ -25,6 +34,7 @@ export default function Home() {
       setLeftSphere(ls);
       setLeftCylinder(lc);
       calculateVision(rs, rc, ls, lc);
+      setViewOnlyResult(true);
     }
   }, []);
 
@@ -80,6 +90,8 @@ export default function Home() {
 
   return (
     <main className="bg-white text-black max-w-md mx-auto p-4 space-y-4">
+      <h1 className="text-2xl font-bold text-center">視力推定ツール</h1>
+
       <div className="text-right">
         <button
           onClick={() => setShowGlossary(true)}
@@ -94,85 +106,52 @@ export default function Home() {
           <div className="bg-white p-6 rounded shadow-lg max-w-md w-full text-sm space-y-4">
             <h2 className="text-lg font-semibold">用語解説</h2>
             <ul className="list-disc list-inside space-y-2">
-              <li>
-                <strong>球面度数（S）</strong>：近視や遠視の度合いを示す数値。マイナスは近視、プラスは遠視。
-              </li>
-              <li>
-                <strong>乱視度数（C）</strong>：角膜や水晶体のゆがみによる乱視の強さ。0に近いほど乱視が少ない。
-              </li>
-              <li>
-                <strong>等価球面度数（SE）</strong>：球面度数と乱視度数から算出される総合的な度数。S + (C ÷ 2) で計算。
-              </li>
-              <li>
-                <strong>推定裸眼視力</strong>：SEから目安として推定される裸眼の視力。あくまで簡易的な指標です。
-              </li>
+              <li><strong>球面度数（S）</strong>：近視や遠視の度合いを示す数値。マイナスは近視、プラスは遠視。</li>
+              <li><strong>乱視度数（C）</strong>：角膜や水晶体のゆがみによる乱視の強さ。0に近いほど乱視が少ない。</li>
+              <li><strong>等価球面度数（SE）</strong>：球面度数と乱視度数から算出される総合的な度数。S + (C ÷ 2) で計算。視力の評価やメガネの度数決定に用いられる。</li>
+              <li><strong>推定裸眼視力</strong>：SEから目安として推定される裸眼の視力。あくまで簡易的な指標です。</li>
             </ul>
             <div className="text-right">
-              <button
-                onClick={() => setShowGlossary(false)}
-                className="mt-4 text-blue-600 underline"
-              >
-                閉じる
-              </button>
+              <button onClick={() => setShowGlossary(false)} className="mt-4 text-blue-600 underline">閉じる</button>
             </div>
           </div>
         </div>
       )}
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">右目</h2>
-        <label>球面度数（S）</label>
-        <select
-          value={rightSphere}
-          onChange={(e) => setRightSphere(e.target.value)}
-          className="border rounded p-1 w-full"
-        >
-          {sphereOptions.map((val) => (
-            <option key={val} value={val}>{val}</option>
-          ))}
-        </select>
-        <label>乱視度数（C）</label>
-        <select
-          value={rightCylinder}
-          onChange={(e) => setRightCylinder(e.target.value)}
-          className="border rounded p-1 w-full"
-        >
-          {cylinderOptions.map((val) => (
-            <option key={val} value={val}>{val}</option>
-          ))}
-        </select>
-      </div>
+      {!viewOnlyResult && (
+        <>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">右目</h2>
+            <label>球面度数（S）</label>
+            <select value={rightSphere} onChange={(e) => setRightSphere(e.target.value)} className="border rounded p-1 w-full">
+              {sphereOptions.map((val) => <option key={val} value={val}>{val}</option>)}
+            </select>
+            <label>乱視度数（C）</label>
+            <select value={rightCylinder} onChange={(e) => setRightCylinder(e.target.value)} className="border rounded p-1 w-full">
+              {cylinderOptions.map((val) => <option key={val} value={val}>{val}</option>)}
+            </select>
+          </div>
 
-      <div className="space-y-4">
-        <h2 className="text-lg font-semibold">左目</h2>
-        <label>球面度数（S）</label>
-        <select
-          value={leftSphere}
-          onChange={(e) => setLeftSphere(e.target.value)}
-          className="border rounded p-1 w-full"
-        >
-          {sphereOptions.map((val) => (
-            <option key={val} value={val}>{val}</option>
-          ))}
-        </select>
-        <label>乱視度数（C）</label>
-        <select
-          value={leftCylinder}
-          onChange={(e) => setLeftCylinder(e.target.value)}
-          className="border rounded p-1 w-full"
-        >
-          {cylinderOptions.map((val) => (
-            <option key={val} value={val}>{val}</option>
-          ))}
-        </select>
-      </div>
+          <div className="space-y-4">
+            <h2 className="text-lg font-semibold">左目</h2>
+            <label>球面度数（S）</label>
+            <select value={leftSphere} onChange={(e) => setLeftSphere(e.target.value)} className="border rounded p-1 w-full">
+              {sphereOptions.map((val) => <option key={val} value={val}>{val}</option>)}
+            </select>
+            <label>乱視度数（C）</label>
+            <select value={leftCylinder} onChange={(e) => setLeftCylinder(e.target.value)} className="border rounded p-1 w-full">
+              {cylinderOptions.map((val) => <option key={val} value={val}>{val}</option>)}
+            </select>
+          </div>
 
-      <button
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-        onClick={() => calculateVision()}
-      >
-        計算する
-      </button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            onClick={() => calculateVision()}
+          >
+            計算する
+          </button>
+        </>
+      )}
 
       {result && (
         <>
@@ -180,6 +159,11 @@ export default function Home() {
           <div className="text-sm mt-2">
             共有リンク: <a href={link} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">{link}</a>
           </div>
+          {viewOnlyResult && (
+            <div className="mt-4 text-center">
+              <button onClick={() => setViewOnlyResult(false)} className="text-blue-600 underline text-sm">もう一回測定する</button>
+            </div>
+          )}
         </>
       )}
 
