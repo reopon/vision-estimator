@@ -4,15 +4,7 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const [searchParams, setSearchParams] = useState<URLSearchParams | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setSearchParams(new URLSearchParams(window.location.search));
-    }
-  }, []);
-
-
+  
   const [rightSphere, setRightSphere] = useState("0.00");
   const [rightCylinder, setRightCylinder] = useState("0.00");
   const [leftSphere, setLeftSphere] = useState("0.00");
@@ -23,7 +15,8 @@ export default function Home() {
   const [viewOnlyResult, setViewOnlyResult] = useState(false);
 
   useEffect(() => {
-    if (!searchParams) return;
+    if (typeof window === "undefined") return;
+    const searchParams = new URLSearchParams(window.location.search);
     const rs = searchParams.get("rs");
     const rc = searchParams.get("rc");
     const ls = searchParams.get("ls");
@@ -187,3 +180,4 @@ export default function Home() {
     </main>
   );
 }
+
