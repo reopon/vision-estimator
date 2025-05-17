@@ -101,7 +101,7 @@ export default function Home() {
             球面度数（S）
             <button
               type="button"
-              onClick={() => setShowModal({ title: "球面度数（S）", content: `近視や遠視の度合いを示す数値。マイナスは近視、プラスは遠視。<br /><br />目安：<ul class='list-disc list-inside pl-4 space-y-0.5'><li>正常視：0.00D</li><li>軽度近視：-0.25D 〜 -2.00D</li><li>中等度近視：-2.25D 〜 -5.00D</li><li>強度近視：-5.25D 以下</li><li>軽度遠視：+0.25D 〜 +2.00D</li><li>強度遠視：+2.25D 以上</li></ul>` })}
+              onClick={() => setShowModal({ title: "球面度数（S）", content: `近視や遠視の度合いを示す数値。マイナスは近視、プラスは遠視。<br /><br />目安：<ul class='list-disc list-inside pl-0 space-y-0.5'><li>正常視：0.00D</li><li>軽度近視：-0.25D 〜 -2.00D</li><li>中等度近視：-2.25D 〜 -5.00D</li><li>強度近視：-5.25D 以下</li><li>軽度遠視：+0.25D 〜 +2.00D</li><li>強度遠視：+2.25D 以上</li></ul>` })}
               className="ml-1 text-blue-600 hover:text-blue-800"
             >
               <span className="inline-block w-5 h-5 bg-blue-100 text-blue-700 rounded-full text-xs leading-5 text-center">？</span>
@@ -115,7 +115,7 @@ export default function Home() {
             乱視度数（C）
             <button
               type="button"
-              onClick={() => setShowModal({ title: "乱視度数（C）", content: `角膜や水晶体のゆがみによる乱視の強さ。0に近いほど乱視が少ない。<br /><br />目安：<ul class='list-disc list-inside pl-4'><li>軽度乱視：-0.25D 〜 -1.00D</li><li>中等度乱視：-1.25D 〜 -2.00D</li><li>強度乱視：-2.25D 以下</li></ul>` })}
+              onClick={() => setShowModal({ title: "乱視度数（C）", content: `角膜や水晶体のゆがみによる乱視の強さ。0に近いほど乱視が少ない。<br /><br />目安：<ul class='list-disc list-inside pl-0'><li>軽度乱視：-0.25D 〜 -1.00D</li><li>中等度乱視：-1.25D 〜 -2.00D</li><li>強度乱視：-2.25D 以下</li></ul>` })}
               className="ml-1 text-blue-600 hover:text-blue-800"
             >
               <span className="inline-block w-5 h-5 bg-blue-100 text-blue-700 rounded-full text-xs leading-5 text-center">？</span>
@@ -131,7 +131,7 @@ export default function Home() {
               type="button"
               onClick={() => setShowModal({
                 title: "乱視の軸（AXIS）",
-                content: `乱視の方向を表す角度（0〜180度）。矯正レンズでどの方向に乱視を補正するかを示します。<br /><br /><strong>分類の目安：</strong><ul class='list-disc list-inside pl-4'><li><strong>直乱視</strong>：軸が90°付近。横方向にブレが生じやすい（例：「V」が「W」に見える）。</li><li><strong>倒乱視</strong>：軸が180°付近。縦方向にブレが生じやすい（例：「一」が「二」に見える）。</li><li><strong>斜乱視</strong>：軸が45°や135°など、斜め方向に乱視がある。</li></ul>`
+                content: `乱視の方向を表す角度（0〜180度）。矯正レンズでどの方向に乱視を補正するかを示します。<br /><br /><strong>分類の目安：</strong><ul class='list-disc list-inside pl-0'><li><strong>直乱視</strong>：軸が90°付近。横方向にブレが生じやすい（例：「V」が「W」に見える）。</li><li><strong>倒乱視</strong>：軸が180°付近。縦方向にブレが生じやすい（例：「一」が「二」に見える）。</li><li><strong>斜乱視</strong>：軸が45°や135°など、斜め方向に乱視がある。</li></ul>`
               })}
               className="ml-1 text-blue-600 hover:text-blue-800"
             >
@@ -148,7 +148,7 @@ export default function Home() {
         className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         onClick={() => calculateVision()}
       >
-        計算する
+        推定視力を算出する
       </button>
 
       {result && (
@@ -168,16 +168,40 @@ export default function Home() {
       content: `<strong>等価球面度数（SE）</strong>：球面度数と乱視度数から計算される総合的な度数（S + C ÷ 2）です。<br/><br/>
 <strong>推定裸眼視力</strong>：等価球面度数（SE）に基づいておおよその視力を予測したものです。あくまで目安です。<br/><br/>
 <strong>対応表：</strong>
-<ul class='list-disc list-inside'>
-  <li>0.00 ～ -0.25：1.0〜1.5以上</li>
-  <li>-0.50：0.8〜1.0</li>
-  <li>-0.75：0.6〜0.8</li>
-  <li>-1.00：0.5〜0.7</li>
-  <li>-1.50：0.3〜0.5</li>
-  <li>-2.00：0.2〜0.3</li>
-  <li>-3.00：0.1〜0.2</li>
-  <li>-4.00以下：0.1未満</li>
-</ul>
+<table class='w-full text-sm divide-y divide-gray-200'>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>0.00 ～ -0.25</td>
+    <td class='py-1.5 pl-4'>1.0〜1.5以上</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-0.50</td>
+    <td class='py-1.5 pl-4'>0.8〜1.0</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-0.75</td>
+    <td class='py-1.5 pl-4'>0.6〜0.8</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-1.00</td>
+    <td class='py-1.5 pl-4'>0.5〜0.7</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-1.50</td>
+    <td class='py-1.5 pl-4'>0.3〜0.5</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-2.00</td>
+    <td class='py-1.5 pl-4'>0.2〜0.3</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-3.00</td>
+    <td class='py-1.5 pl-4'>0.1〜0.2</td>
+  </tr>
+  <tr class='divide-x divide-gray-200'>
+    <td class='py-1.5 pr-4'>-4.00以下</td>
+    <td class='py-1.5 pl-4'>0.1未満</td>
+  </tr>
+</table>
 ※「乱視の軸」は何の計算にも使っていません。すみません`
     })}
     className="absolute top-0 right-0 mt-1 mr-2 text-blue-600 hover:text-blue-800"
