@@ -131,7 +131,7 @@ export default function Home() {
               type="button"
               onClick={() => setShowModal({
                 title: "乱視の軸（AXIS）",
-                content: `乱視の方向を表す角度（0〜180度）。矯正レンズでどの方向に乱視を補正するかを示します。<br /><br /><strong>分類の目安：</strong><ul class='list-disc list-inside pl-0'><li><strong>直乱視</strong>：軸が90°付近。横方向にブレが生じやすい（例：「V」が「W」に見える）。</li><li><strong>倒乱視</strong>：軸が180°付近。縦方向にブレが生じやすい（例：「一」が「二」に見える）。</li><li><strong>斜乱視</strong>：軸が45°や135°など、斜め方向に乱視がある。</li></ul>`
+                content: `乱視の方向を表す角度（0〜180度）。矯正レンズでどの方向に乱視を補正するかを示します。<br /><br /><strong>分類の目安：</strong><ul class='list-disc list-inside pl-0'><li><strong>直乱視</strong>：軸が180°付近。縦方向にブレが生じやすい（例：「二」が「三」に見える）。</li><li><strong>倒乱視</strong>：軸が90°付近。横方向にブレが生じやすい（例：「V」が「W」に見える）。</li><li><strong>斜乱視</strong>：軸が45°や135°など、斜め方向に乱視がある。</li></ul>`
               })}
               className="ml-1 text-blue-600 hover:text-blue-800"
             >
